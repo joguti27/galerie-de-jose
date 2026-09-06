@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ArrowLeft, Film, BookOpen, Search, ExternalLink, RefreshCw, X, Eye } from 'lucide-react';
+import { ArrowLeft, Film, BookOpen, Search, ExternalLink, RefreshCw, X, Eye, FolderTree, ChevronDown } from 'lucide-react';
 
 interface FilmItem {
   id: string;
@@ -175,6 +175,7 @@ export function BibliotecaFilmotecaPage({ onBack }: BibliotecaFilmotecaPageProps
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilm, setSelectedFilm] = useState<FilmItem | null>(null);
   const [selectedBook, setSelectedBook] = useState<BookItem | null>(null);
+  const [isTreeExpanded, setIsTreeExpanded] = useState(false);
 
   // Live random still generator inside the filmoteca view
   const [randomStill, setRandomStill] = useState<{ title: string; year: string; imageUrl: string } | null>(null);
@@ -233,8 +234,8 @@ export function BibliotecaFilmotecaPage({ onBack }: BibliotecaFilmotecaPageProps
         </button>
 
         <div className="flex items-center gap-2">
-          <span className="font-times-italic italic text-xl sm:text-2xl font-bold tracking-wider text-black">
-            biblioteca, filmoteca
+          <span className="font-inter font-bold uppercase text-lg sm:text-2xl tracking-[0.05em] text-black">
+            GALERIE DE JOSE
           </span>
           <span className="font-ibm-mono text-xs bg-black text-[#00FF01] px-2 py-0.5 font-bold">
             ARCHIVO VIVO
@@ -285,17 +286,100 @@ export function BibliotecaFilmotecaPage({ onBack }: BibliotecaFilmotecaPageProps
         <div className="border-3 border-black bg-black text-white p-6 sm:p-8 mb-10 shadow-[8px_8px_0px_0px_#000000]">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-red-500 font-ibm-mono text-xs tracking-widest uppercase">
-                <span>● CATÁLOGO MONUMENTAL</span>
-                <span>//</span>
-                <span>TEORÍA, FOTOGRAMAS Y MANIFIESTOS</span>
+              {/* Árbol de navegación funcional */}
+              <div className="relative inline-block">
+                <nav aria-label="Ruta de directorios" className="flex items-center flex-wrap gap-1 font-ibm-mono text-xs tracking-wider uppercase">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (activeTab !== 'all') {
+                        setActiveTab('all');
+                      } else {
+                        setIsTreeExpanded(!isTreeExpanded);
+                      }
+                    }}
+                    className="flex items-center gap-1.5 text-[#00FF01] hover:text-white transition-colors cursor-pointer group"
+                    title={activeTab === 'all' ? "Haga clic para desplegar el árbol de directorios" : "Volver a la raíz principal"}
+                  >
+                    <FolderTree className="w-3.5 h-3.5 text-[#00FF01]" />
+                    <span className="font-bold underline-offset-4 group-hover:underline">
+                      biblioteca, filmoteca/
+                    </span>
+                    <ChevronDown className={`w-3 h-3 text-neutral-400 transition-transform ${isTreeExpanded ? 'rotate-180 text-[#00FF01]' : ''}`} />
+                  </button>
+
+                  {activeTab !== 'all' && (
+                    <button
+                      type="button"
+                      onClick={() => setIsTreeExpanded(!isTreeExpanded)}
+                      className="text-white font-bold hover:text-[#00FF01] transition-colors cursor-pointer flex items-center gap-1"
+                    >
+                      <span>{activeTab}/</span>
+                    </button>
+                  )}
+                </nav>
+
+                {/* Subárbol desplegable interactivo */}
+                {isTreeExpanded && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-20 cursor-default" 
+                      onClick={() => setIsTreeExpanded(false)} 
+                    />
+                    <div className="absolute left-0 top-full mt-2 z-30 bg-black border-2 border-[#00FF01] p-3 shadow-[4px_4px_0px_0px_#00FF01] min-w-[260px] font-ibm-mono text-xs space-y-2">
+                      <div className="text-neutral-500 text-[10px] pb-1 border-b border-neutral-800 flex justify-between items-center">
+                        <span>ESTRUCTURA DEL ÁRBOL</span>
+                        <span className="text-[#00FF01]">[ESC / CLIC FUERA]</span>
+                      </div>
+                      <div className="space-y-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveTab('all');
+                            setIsTreeExpanded(false);
+                          }}
+                          className={`w-full text-left px-2 py-1.5 flex items-center justify-between cursor-pointer hover:bg-neutral-900 transition-colors ${
+                            activeTab === 'all' ? 'text-[#00FF01] font-bold bg-neutral-900 border-l-2 border-[#00FF01]' : 'text-neutral-300'
+                          }`}
+                        >
+                          <span>biblioteca, filmoteca/ (raíz)</span>
+                          <span className="text-neutral-500 text-[10px]">[{FILM_ARCHIVE.length + BOOK_ARCHIVE.length}]</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveTab('filmoteca');
+                            setIsTreeExpanded(false);
+                          }}
+                          className={`w-full text-left px-2 py-1.5 flex items-center justify-between cursor-pointer hover:bg-neutral-900 transition-colors pl-4 ${
+                            activeTab === 'filmoteca' ? 'text-[#00FF01] font-bold bg-neutral-900 border-l-2 border-[#00FF01]' : 'text-neutral-300'
+                          }`}
+                        >
+                          <span>├── filmoteca/</span>
+                          <span className="text-neutral-500 text-[10px]">[{FILM_ARCHIVE.length} films]</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveTab('biblioteca');
+                            setIsTreeExpanded(false);
+                          }}
+                          className={`w-full text-left px-2 py-1.5 flex items-center justify-between cursor-pointer hover:bg-neutral-900 transition-colors pl-4 ${
+                            activeTab === 'biblioteca' ? 'text-[#00FF01] font-bold bg-neutral-900 border-l-2 border-[#00FF01]' : 'text-neutral-300'
+                          }`}
+                        >
+                          <span>└── biblioteca/</span>
+                          <span className="text-neutral-500 text-[10px]">[{BOOK_ARCHIVE.length} libros]</span>
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
+
               <h1 className="font-times-italic italic text-4xl sm:text-6xl text-white font-normal leading-[1.1]">
                 biblioteca, filmoteca
               </h1>
-              <p className="font-ibm-mono text-xs sm:text-sm text-neutral-400 max-w-2xl leading-relaxed">
-                Una colección curada de obras maestras del celuloide y textos teóricos fundamentales sobre el arte de esculpir en el tiempo, la mirada cinematográfica y la imagen dialéctica.
-              </p>
             </div>
 
             {/* Live Search & Quick Filter */}
