@@ -1,0 +1,36 @@
+# Configuración de Decap CMS (anteriormente Netlify CMS)
+# Conexión con el repositorio Git
+backend:
+  name: git-gateway
+  branch: main # Rama principal donde se comitean los posts
+
+# Para conectar directamente con GitHub sin Netlify, puedes usar:
+# backend:
+#   name: github
+#   repo: tu-usuario/tu-repositorio
+#   branch: main
+
+# Carpetas de almacenamiento multimedia
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# Idioma de la interfaz de administración
+locale: "es"
+
+# Definición de colecciones para el Blog
+collections:
+  - name: "blog"
+    label: "Entradas de Blog"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Fecha de Publicación", name: "date", widget: "datetime", format: "DD/MM/YYYY", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Autor", name: "author", widget: "string", default: "Jose" }
+      - { label: "Descripción Breve", name: "description", widget: "text", required: false }
+      - { label: "Imagen Destacada", name: "thumbnail", widget: "image", required: false }
+      - { label: "Etiquetas", name: "tags", widget: "list", required: false }
+      - { label: "Contenido del Artículo", name: "body", widget: "markdown" }

@@ -1,0 +1,7 @@
+{
+  "name": "Galerie de Jose",
+  "description": "Sitio web brutalista Galerie de Jose con fondo verde neón (#00FF00), archivo de proyectos, enlaces de blog interactivos y pie de página ((CUALQUIER CHIMBA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

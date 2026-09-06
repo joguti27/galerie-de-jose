@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --neon-green: #00ff01;
+}
+
+html, body {
+  background-color: #00ff01;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: #000000;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.font-ibm-mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.font-times-italic {
+  font-family: 'Times New Roman', Times, serif;
+  font-style: italic;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-medium {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 24s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-medium:hover {
+  animation-play-state: paused;
+}
+
