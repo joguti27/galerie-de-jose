@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ArrowLeft, Film, BookOpen, Search, ExternalLink, RefreshCw, X, Eye, FolderTree, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Film, BookOpen, Search, ExternalLink, X, Eye, FolderTree, ChevronDown } from 'lucide-react';
 
 interface FilmItem {
   id: string;
@@ -177,24 +177,6 @@ export function BibliotecaFilmotecaPage({ onBack }: BibliotecaFilmotecaPageProps
   const [selectedBook, setSelectedBook] = useState<BookItem | null>(null);
   const [isTreeExpanded, setIsTreeExpanded] = useState(false);
 
-  // Live random still generator inside the filmoteca view
-  const [randomStill, setRandomStill] = useState<{ title: string; year: string; imageUrl: string } | null>(null);
-  const [loadingStill, setLoadingStill] = useState(false);
-
-  const fetchExtraStill = async () => {
-    setLoadingStill(true);
-    try {
-      const resp = await fetch('/api/filmgrab/random');
-      if (resp.ok) {
-        const data = await resp.json();
-        setRandomStill(data);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoadingStill(false);
-    }
-  };
 
   const filteredFilms = useMemo(() => {
     if (activeTab === 'biblioteca') return [];
@@ -429,50 +411,6 @@ export function BibliotecaFilmotecaPage({ onBack }: BibliotecaFilmotecaPageProps
               </span>
             </div>
 
-            {/* Random Film-Grab Interactor */}
-            <div className="border-2 border-black bg-black p-4 mb-8 text-[#00FF01] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 bg-red-600 animate-pulse rounded-full" />
-                <span className="font-ibm-mono text-xs uppercase tracking-wider">
-                  FILM-GRAB LIVE FEED // +4,140 FOTOGRAMAS DISPONIBLES
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={fetchExtraStill}
-                disabled={loadingStill}
-                className="flex items-center gap-2 bg-[#00FF01] text-black font-ibm-mono text-xs px-3 py-1.5 font-bold hover:bg-white transition-colors cursor-pointer border border-black"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${loadingStill ? 'animate-spin' : ''}`} />
-                <span>EXPLORAR FOTOGRAMA ALEATORIO</span>
-              </button>
-            </div>
-
-            {/* Random Still Viewer if requested */}
-            {randomStill && (
-              <div className="border-3 border-black bg-black text-white p-4 mb-8 shadow-[6px_6px_0px_0px_#000000]">
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-neutral-800">
-                  <span className="font-ibm-mono text-xs text-[#00FF01]">
-                    FOTOGRAMA CARGADO: {randomStill.title} ({randomStill.year})
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setRandomStill(null)}
-                    className="text-neutral-400 hover:text-white text-xs font-ibm-mono"
-                  >
-                    [CERRAR ×]
-                  </button>
-                </div>
-                <div className="relative aspect-[16/9] max-h-[500px] w-full bg-neutral-950 overflow-hidden flex items-center justify-center">
-                  <img
-                    src={randomStill.imageUrl}
-                    alt={randomStill.title}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-              </div>
-            )}
 
             {/* Film Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
