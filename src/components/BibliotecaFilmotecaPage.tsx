@@ -428,9 +428,6 @@ export function BibliotecaFilmotecaPage({ onBack }: BibliotecaFilmotecaPageProps
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-2 left-2 bg-black text-[#00FF01] font-ibm-mono text-[10px] px-1.5 py-0.5 tracking-widest">
-                      {film.year} // {film.format}
-                    </div>
                   </div>
 
                   {/* Info card */}
@@ -440,7 +437,7 @@ export function BibliotecaFilmotecaPage({ onBack }: BibliotecaFilmotecaPageProps
                         {film.title}
                       </h3>
                       <p className="font-ibm-mono text-xs text-neutral-600 group-hover:text-neutral-300 mt-1">
-                        Dir. {film.director} • {film.country}
+                        Dir. {film.director} ({film.year}) • {film.country}
                       </p>
                     </div>
 
