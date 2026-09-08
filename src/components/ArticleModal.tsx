@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { X } from 'lucide-react';
 import { BlogItem, ProjectItem } from '../types';
 
 interface ArticleModalProps {
@@ -36,40 +37,23 @@ export function ArticleModal({ item, type, onClose, onNext, onPrev }: ArticleMod
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#00FF01] border-3 border-black p-4 sm:p-8 shadow-[8px_8px_0px_0px_#000000] text-black relative flex flex-col selection:bg-black selection:text-[#00FF01]"
+        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#00FF01] border-3 border-black p-6 sm:p-8 text-black relative flex flex-col selection:bg-black selection:text-[#00FF01]"
       >
-        {/* Top bar controls */}
-        <div className="flex items-center justify-between border-b-2 border-black pb-3 mb-6">
-          <div className="flex items-center gap-2">
-            <span className="font-ibm-mono font-bold text-xs uppercase tracking-wider text-black">
-              {isBlog ? `> BLOG // ${blog?.category}` : `> PROYECTO // ${project?.year}`}
-            </span>
-            <span className="font-inter text-xs text-black/80 font-normal">
-              {item.date}
-            </span>
-          </div>
-
-          <button
-            id="close-modal-btn"
-            onClick={onClose}
-            className="font-ibm-mono text-xs sm:text-sm font-bold bg-black text-[#00FF01] hover:bg-black/80 px-3 py-1 cursor-pointer transition-colors uppercase"
-          >
-            [ CERRAR / ✕ ]
-          </button>
-        </div>
+        {/* Botón cerrar: X dentro de un cuadrado */}
+        <button
+          id="close-modal-btn"
+          onClick={onClose}
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 flex items-center justify-center border border-black bg-transparent hover:bg-black hover:text-[#00FF01] text-black transition-colors cursor-pointer"
+          title="Cerrar"
+          aria-label="Cerrar"
+        >
+          <X className="w-4 h-4" />
+        </button>
 
         {/* Title */}
-        <h2 className="font-times-italic italic font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-[1.05] mb-4 text-black">
+        <h2 className="font-times-italic italic font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-[1.05] mb-6 text-black pr-12">
           {item.title}
         </h2>
-
-        {/* Read time / Subtitle */}
-        {isBlog && blog && (
-          <div className="font-ibm-mono text-xs uppercase tracking-widest text-black/70 mb-6 flex items-center gap-3">
-            <span>● {blog.readTime}</span>
-            <span>● ARCHIVO DE IDEAS</span>
-          </div>
-        )}
 
         {/* Excerpt */}
         {isBlog && blog && (
@@ -112,13 +96,13 @@ export function ArticleModal({ item, type, onClose, onNext, onPrev }: ArticleMod
           </div>
         )}
 
-        {/* Footer controls */}
-        <div className="mt-8 pt-4 border-t-2 border-black flex items-center justify-between font-ibm-mono text-xs">
-          <div className="flex gap-2">
+        {/* Footer controls (solo si hay navegación) */}
+        {(onPrev || onNext) && (
+          <div className="mt-8 pt-4 border-t-2 border-black flex items-center justify-start gap-2 font-ibm-mono text-xs">
             {onPrev && (
               <button
                 onClick={onPrev}
-                className="border border-black px-2 py-1 bg-black text-[#00FF01] hover:bg-black/80 transition-colors cursor-pointer"
+                className="border border-black px-2.5 py-1 bg-transparent hover:bg-black hover:text-[#00FF01] transition-colors cursor-pointer"
               >
                 &larr; ANTERIOR
               </button>
@@ -126,17 +110,13 @@ export function ArticleModal({ item, type, onClose, onNext, onPrev }: ArticleMod
             {onNext && (
               <button
                 onClick={onNext}
-                className="border border-black px-2 py-1 bg-black text-[#00FF01] hover:bg-black/80 transition-colors cursor-pointer"
+                className="border border-black px-2.5 py-1 bg-transparent hover:bg-black hover:text-[#00FF01] transition-colors cursor-pointer"
               >
                 SIGUIENTE &rarr;
               </button>
             )}
           </div>
-
-          <span className="text-black/60 hidden sm:inline">
-            PRESIONA [ESC] PARA SALIR
-          </span>
-        </div>
+        )}
       </div>
     </div>
   );

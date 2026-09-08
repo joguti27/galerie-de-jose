@@ -56,7 +56,7 @@ export default function App() {
   };
 
   const handleNextModal = () => {
-    if (modalType === 'blog' && selectedItem) {
+    if (modalType === 'blog' && selectedItem && BLOGS_DATA.length > 0) {
       const idx = BLOGS_DATA.findIndex((b) => b.id === selectedItem.id);
       const nextIdx = (idx + 1) % BLOGS_DATA.length;
       handleOpenBlog(BLOGS_DATA[nextIdx]);
@@ -64,7 +64,7 @@ export default function App() {
   };
 
   const handlePrevModal = () => {
-    if (modalType === 'blog' && selectedItem) {
+    if (modalType === 'blog' && selectedItem && BLOGS_DATA.length > 0) {
       const idx = BLOGS_DATA.findIndex((b) => b.id === selectedItem.id);
       const prevIdx = (idx - 1 + BLOGS_DATA.length) % BLOGS_DATA.length;
       handleOpenBlog(BLOGS_DATA[prevIdx]);
@@ -100,9 +100,9 @@ export default function App() {
       >
         {/* DESKTOP EXACT 1:1 FIGMA CANVAS (hidden on mobile/tablet, active on xl screens) */}
         <div className="hidden xl:block relative w-full h-[1125px]">
-          {/* 1. Header: left: 33px; top: 44px; width: 959px; height: 133px; */}
-          <div className="absolute left-[33px] top-[44px] w-[959px] h-[133px] z-30">
-            <Header />
+          {/* 1. Header: left: 33px; top: 44px; */}
+          <div className="absolute left-[33px] top-[44px] z-30 max-w-[calc(100%-66px)]">
+            <Header onTitleClick={handleCloseArchive} />
           </div>
 
           {/* 2. Titulo Proyectos: left: 63px; top: 233px; & Frame 2-5: left: 105px; top: 279px */}
@@ -136,7 +136,7 @@ export default function App() {
         <div className="xl:hidden flex flex-col justify-between min-h-screen py-6 space-y-8">
           {/* Header */}
           <div className="w-full pt-2">
-            <Header />
+            <Header onTitleClick={handleCloseArchive} />
           </div>
 
           {/* Center Content: FilmGrab Photo Generator and Lists */}

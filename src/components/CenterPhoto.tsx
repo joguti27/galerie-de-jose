@@ -45,7 +45,7 @@ export function CenterPhoto({ onPhotoClick }: CenterPhotoProps) {
   return (
     <div className="relative flex flex-col justify-center items-center w-full z-10 pointer-events-auto group">
       <div 
-        className="relative cursor-pointer overflow-hidden border border-black/20 bg-black max-w-[801px] w-full shadow-lg"
+        className="relative cursor-pointer overflow-hidden border border-black/20 bg-black max-w-[801px] w-full"
         onClick={() => {
           setIsInverted(!isInverted);
           onPhotoClick?.();
@@ -71,7 +71,7 @@ export function CenterPhoto({ onPhotoClick }: CenterPhotoProps) {
 
         {/* Solo título y año de la película */}
         <div className="absolute bottom-3 left-3 z-20 pointer-events-none">
-          <div className="bg-black/85 text-white font-ibm-mono text-[11px] sm:text-xs px-2.5 py-1 tracking-wide border border-white/15 flex items-center gap-2 max-w-[90%] truncate shadow">
+          <div className="bg-black/85 text-white font-ibm-mono text-[11px] sm:text-xs px-2.5 py-1 tracking-wide border border-white/15 flex items-center gap-2 max-w-[90%] truncate">
             <span className="text-white italic font-times text-xs sm:text-sm font-normal truncate">
               {still.title}
             </span>
