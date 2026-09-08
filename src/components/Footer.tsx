@@ -16,7 +16,7 @@ export function Footer({ onOpenArchive }: FooterProps) {
   return (
     <footer 
       id="brutalist-footer"
-      className="w-full select-none overflow-hidden py-1 border-t-2 border-b-2 border-black bg-[#00FF01] transition-colors"
+      className="w-full select-none overflow-hidden py-1 bg-[#00FF01] transition-colors"
     >
       <button 
         type="button"
